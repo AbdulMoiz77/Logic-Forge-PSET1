@@ -1,17 +1,14 @@
 def teamContriMultiplier(contributions):
     n = len(contributions)
-    prefix = [1]*n
+    impact = [1]*n
 
     for i in range(1,n):
-        prefix[i] = prefix[i-1] * contributions[i-1]
+        impact[i] = impact[i-1] * contributions[i-1]
 
-    suffix = [1]*n
-    for i in range(n-1, 0, -1):
-        suffix[i-1] = suffix[i] * contributions[i]
-
-    impact = [1]*n
-    for i in range(n):
-        impact[i] = suffix[i] * prefix[i]
+    temp = 1
+    for i in range(n-2, -1, -1):
+        temp *= contributions[i+1]
+        impact[i] *= temp
 
     return impact
 

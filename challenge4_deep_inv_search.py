@@ -6,19 +6,19 @@ def deepInvSearch(inv, k):
     while start < end:
         mid = (start + end) // 2
 
-        # starting from bottom left
-        row = n-1
-        col = 0
+        # starting from top right
+        row = 0
+        col = n - 1
         count = 0   
 
-        # will move up or right
-        while row >= 0 and col < n:
+        # will move down or left
+        while row < n and col >= 0:
             current = inv[row][col]
-            if current <= mid:  # all the value above this value would be smaller than it, so adding the count of all those values
-                count += row + 1
-                col += 1 # moving right to the larger value
-            else: # all the value to the right of this value would be larger than it so moving to smaller value i.e. the above value
-                row -= 1
+            if current <= mid:  # all the values in this row would also be smaller than it, so adding the count and moving to larger value i.e. the next row
+                count += col + 1
+                row += 1 # moving down to the larger value
+            else: # cuurent value is too big and all the values below this value would be larger than it so moving to smaller value i.e. the left value
+                col -= 1
 
         if count >= k:
             end = mid

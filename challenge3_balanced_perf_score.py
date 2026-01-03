@@ -6,27 +6,22 @@ def balancedPerfScore(scoresA, scoresB):
     median_pos = elements // 2
     a = 0
     b = 0
-    seen = 0
-
+    current = 0
     prev = 0
-    while seen < median_pos:
-        if scoresA[a] <= scoresB[b] and a < n-1:
-            prev = scoresA[a]
+
+    for i in range(median_pos + 1):
+        prev = current
+        if a < n and (b >= m or scoresA[a] <= scoresB[b]) :
+            current = scoresA[a]
             a = a + 1
-        elif b < m-1:
-            prev = scoresB[b]
+        else:
+            current = scoresB[b]
             b = b + 1
 
-        seen += 1
-
-    if scoresA[a] <= scoresB[b]:
-        median = scoresA[a]
-    else:
-        median = scoresB[b]
-
     if elements % 2 == 0:
-        median += prev
-        median = median / 2
+        median = (prev + current) / 2
+    else:
+        median = current
 
     return median
 

@@ -1,29 +1,31 @@
-import heapq
-
 def deepInvSearch(inv, k):
     n = len(inv)
+    start = inv[0][0]
+    end = inv[n-1][n-1]
 
-    if k > n*n or k == 0:
-        return -1
+    while start < end:
+        mid = (start + end) // 2
 
-    heap = []
-    for i in range(n):
-        heap.append((inv[i][0], i, 0))
+        # starting from bottom left
+        row = n-1
+        col = 0
+        count = 0   
 
-    heapq.heapify(heap)
+        # will move up or right
+        while row >= 0 and col < n:
+            current = inv[row][col]
+            if current <= mid:  # all the value above this value would be smaller than it, so adding the count of all those values
+                count += row + 1
+                col += 1 # moving right to the larger value
+            else: # all the value to the right of this value would be larger than it so moving to smaller value i.e. the above value
+                row -= 1
 
-    for i in range(k):
-        val = heapq.heappop(heap)
-        item = val[0]
-        rowidx = val[1]
-        colidx = val[2]
-        
-        if (colidx + 1) != n:
-            colidx += 1
-            temp = (inv[rowidx][colidx], rowidx, colidx)
-            heapq.heappush(heap, (temp))
+        if count >= k:
+            end = mid
+        else:
+            start = mid + 1
 
-    return item
+    return start
 
 
 if __name__ == "__main__":

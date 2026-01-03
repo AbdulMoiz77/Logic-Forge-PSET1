@@ -1,3 +1,5 @@
+import heapq
+
 def deepInvSearch(inv, k):
     n = len(inv)
 
@@ -8,22 +10,18 @@ def deepInvSearch(inv, k):
     for i in range(n):
         heap.append((inv[i][0], i, 0))
 
+    heapq.heapify(heap)
+
     for i in range(k):
-        smallest = float('inf')
-        rowidx = -1
-        colidx = -1
-        heapidx = -1
-        for j in range(len(heap)):
-            if heap[j][0] < smallest:
-                smallest = heap[j][0]
-                rowidx = heap[j][1]
-                colidx = heap[j][2]
-                idx = j
+        val = heapq.heappop(heap)
+        item = val[0]
+        rowidx = val[1]
+        colidx = val[2]
         
-        item = heap.pop(idx)[0]
         if (colidx + 1) != n:
             colidx += 1
-            heap.append((inv[rowidx][colidx], rowidx, colidx))
+            temp = (inv[rowidx][colidx], rowidx, colidx)
+            heapq.heappush(heap, (temp))
 
     return item
 
